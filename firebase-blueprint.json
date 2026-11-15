@@ -1,0 +1,311 @@
+{
+  "entities": {
+    "PublicProfile": {
+      "title": "PublicProfile",
+      "description": "Publicly visible creator and user profile metadata.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "username": { "type": "string", "minLength": 2, "maxLength": 40, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "avatarUrl": { "type": "string", "maxLength": 25000 },
+        "coverUrl": { "type": "string", "maxLength": 500 },
+        "isPublic": { "type": "boolean" },
+        "role": { "type": "string", "enum": ["user", "creator", "admin"] },
+        "isSuspended": { "type": "boolean" },
+        "followersCount": { "type": "integer" },
+        "followingCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "username", "displayName", "isPublic", "role", "isSuspended", "followersCount", "followingCount", "createdAt", "updatedAt"]
+    },
+    "PrivateUser": {
+      "title": "PrivateUser",
+      "description": "PII-isolated private account information restricted to the owner and admins.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "fullName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "favoriteGenres": { "type": "array" },
+        "newsletterOptIn": { "type": "boolean" },
+        "themePreference": { "type": "string", "enum": ["dark", "light"] },
+        "saveDownloadHistory": { "type": "boolean" },
+        "hideViewingActivity": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "fullName", "createdAt", "updatedAt"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Trusted server-managed or bootstrapped admin registry document.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "grantedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "grantedAt"]
+    },
+    "FavoriteItem": {
+      "title": "FavoriteItem",
+      "description": "Bookmarked anime, character, wallpaper, 3D model, or animation.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "itemId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "itemType": { "type": "string", "enum": ["anime", "character", "wallpaper", "model3d", "animation"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "subtitle": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "itemId", "itemType", "title", "createdAt"]
+    },
+    "UserCollection": {
+      "title": "UserCollection",
+      "description": "Custom user-curated anime/artwork collection.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
+        "isPublic": { "type": "boolean" },
+        "itemsCount": { "type": "integer" },
+        "coverImage": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "isPublic", "itemsCount", "createdAt", "updatedAt"]
+    },
+    "CollectionItem": {
+      "title": "CollectionItem",
+      "description": "Item belonging to a user collection.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "collectionId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "isCollectionPublic": { "type": "boolean" },
+        "itemId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "itemType": { "type": "string", "enum": ["anime", "character", "wallpaper", "model3d", "animation"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "addedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "collectionId", "userId", "isCollectionPublic", "itemId", "itemType", "title", "addedAt"]
+    },
+    "CommunityArtwork": {
+      "title": "CommunityArtwork",
+      "description": "User-submitted community artwork or showcase entry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "authorId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "authorName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "authorUsername": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 140 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "category": { "type": "string", "enum": ["Wallpaper", "Illustration", "3D Render", "Motion", "Character Fanart"] },
+        "imageUrl": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "likesCount": { "type": "integer" },
+        "isFeatured": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["published", "flagged", "removed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "authorId", "authorName", "authorUsername", "title", "category", "imageUrl", "likesCount", "isFeatured", "status", "createdAt", "updatedAt"]
+    },
+    "ArtworkComment": {
+      "title": "ArtworkComment",
+      "description": "Comment on a published community artwork.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "artworkId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "artworkStatus": { "type": "string", "enum": ["published", "flagged", "removed"] },
+        "authorId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "authorName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "content": { "type": "string", "minLength": 1, "maxLength": 600 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "artworkId", "artworkStatus", "authorId", "authorName", "content", "createdAt"]
+    },
+    "ArtworkLike": {
+      "title": "ArtworkLike",
+      "description": "User like on a community artwork.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "artworkId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "artworkId", "userId", "createdAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "User follow relationship.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "followerId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "followingId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "followerId", "followingId", "createdAt"]
+    },
+    "FeedbackSubmission": {
+      "title": "FeedbackSubmission",
+      "description": "User feedback, bug report, or content request.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "category": { "type": "string", "enum": ["Bug Report", "Website Suggestion", "Content Request", "Technical Issue", "General Feedback"] },
+        "subject": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "message": { "type": "string", "minLength": 10, "maxLength": 2000 },
+        "rating": { "type": "integer" },
+        "status": { "type": "string", "enum": ["open", "in_review", "resolved"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "email", "category", "subject", "message", "rating", "status", "createdAt", "updatedAt"]
+    },
+    "ContentReport": {
+      "title": "ContentReport",
+      "description": "Moderation report filed by a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "reporterId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "targetType": { "type": "string", "enum": ["artwork", "comment", "profile", "collection"] },
+        "reason": { "type": "string", "minLength": 5, "maxLength": 600 },
+        "status": { "type": "string", "enum": ["pending", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "reporterId", "targetId", "targetType", "reason", "status", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "type": { "type": "string", "enum": ["content", "follower", "like", "comment", "announcement", "alert"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 140 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 400 },
+        "link": { "type": "string", "maxLength": 300 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "type", "title", "message", "isRead", "createdAt"]
+    },
+    "SiteConfig": {
+      "title": "SiteConfig",
+      "description": "Admin-managed homepage banners and platform announcements.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "message": { "type": "string", "maxLength": 600 },
+        "bannerUrl": { "type": "string", "maxLength": 500 },
+        "isPublished": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "isPublished", "updatedAt"]
+    },
+    "DownloadRecord": {
+      "title": "DownloadRecord",
+      "description": "Private per-user video download history record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "videoId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "thumbnailUrl": { "type": "string", "maxLength": 500 },
+        "format": { "type": "string", "enum": ["MP4"] },
+        "fileSizeBytes": { "type": "integer" },
+        "downloadedBytes": { "type": "integer" },
+        "status": { "type": "string", "enum": ["downloading", "completed", "failed"] },
+        "saveLocation": { "type": "string", "maxLength": 200 },
+        "errorMessage": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "videoId", "title", "format", "fileSizeBytes", "downloadedBytes", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/publicProfiles/{uid}": {
+      "schema": { "$ref": "#/entities/PublicProfile" },
+      "description": "Public creator and user profiles."
+    },
+    "/privateUsers/{uid}": {
+      "schema": { "$ref": "#/entities/PrivateUser" },
+      "description": "PII-isolated private user data."
+    },
+    "/admins/{uid}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Admin authorization registry."
+    },
+    "/favorites/{favoriteId}": {
+      "schema": { "$ref": "#/entities/FavoriteItem" },
+      "description": "User favorite items across anime, characters, wallpapers, 3D models, and animations."
+    },
+    "/collections/{collectionId}": {
+      "schema": { "$ref": "#/entities/UserCollection" },
+      "description": "User-curated collections."
+    },
+    "/collections/{collectionId}/items/{itemId}": {
+      "schema": { "$ref": "#/entities/CollectionItem" },
+      "description": "Items inside a user collection."
+    },
+    "/communityArtworks/{artworkId}": {
+      "schema": { "$ref": "#/entities/CommunityArtwork" },
+      "description": "Community artwork uploads and creator showcases."
+    },
+    "/communityArtworks/{artworkId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/ArtworkComment" },
+      "description": "Comments on community artworks."
+    },
+    "/artworkLikes/{likeId}": {
+      "schema": { "$ref": "#/entities/ArtworkLike" },
+      "description": "Likes on community artworks."
+    },
+    "/follows/{followId}": {
+      "schema": { "$ref": "#/entities/Follow" },
+      "description": "Creator follow relationships."
+    },
+    "/feedback/{feedbackId}": {
+      "schema": { "$ref": "#/entities/FeedbackSubmission" },
+      "description": "Feedback, bug reports, and content requests."
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/ContentReport" },
+      "description": "Moderation reports."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "User notifications and announcements."
+    },
+    "/siteConfig/{docId}": {
+      "schema": { "$ref": "#/entities/SiteConfig" },
+      "description": "Admin-managed homepage banners and announcements."
+    },
+    "/downloads/{downloadId}": {
+      "schema": { "$ref": "#/entities/DownloadRecord" },
+      "description": "Private per-user video download history strictly isolated to each user."
+    }
+  }
+}

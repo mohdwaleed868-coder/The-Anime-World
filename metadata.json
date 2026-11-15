@@ -1,0 +1,6 @@
+{
+  "name": "THE ANIME WORLD",
+  "description": "ENTER THE WORLD OF ANIME. EXPERIENCE THE IMPOSSIBLE. Futuristic 3D animated global anime discovery platform with thousands of real titles, interactive 3D showcases, 4K wallpapers, and Gemini AI Anime Assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

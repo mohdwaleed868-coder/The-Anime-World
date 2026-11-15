@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THE ANIME WORLD — Enter the World of Anime</title>
+    <meta
+      name="description"
+      content="Discover thousands of anime, explore interactive 3D worlds, 4K anime wallpapers, character archives, and personalized Gemini AI recommendations on THE ANIME WORLD."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="THE ANIME WORLD" />
+    <meta property="og:title" content="THE ANIME WORLD — Enter the World of Anime" />
+    <meta
+      property="og:description"
+      content="Discover thousands of anime, explore interactive 3D worlds, 4K anime wallpapers, character archives, and personalized Gemini AI recommendations."
+    />
+    <meta property="og:image" content="/src/assets/images/brand_portal_emblem_1794666725703.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="THE ANIME WORLD — Enter the World of Anime" />
+    <meta
+      name="twitter:description"
+      content="Discover thousands of anime, explore interactive 3D worlds, 4K wallpapers, and AI-powered anime discovery."
+    />
+    <meta name="theme-color" content="#080812" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      try {
+        var savedTheme = window.localStorage.getItem('aw_theme');
+        if (savedTheme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.style.colorScheme = 'light';
+        } else {
+          document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch (e) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "THE ANIME WORLD",
+        "applicationCategory": "EntertainmentApplication",
+        "operatingSystem": "All",
+        "description": "Global 3D animated anime discovery platform featuring thousands of real anime entries, character archives, 4K wallpapers, interactive 3D models, and AI discovery.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body class="antialiased selection:bg-[#9B5CFF]/30 selection:text-inherit">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
